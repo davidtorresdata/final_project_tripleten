@@ -16,7 +16,7 @@ list_files = norm.import_list_csv(PATH_FILES)
 df_names = list(list_files.keys())
 
 list_files[df_names[0]]['EndDate'] = list_files[df_names[0]
-                                                ]['EndDate'].replace('No', norm.np.nan)
+                                                ]['EndDate'].replace('No', '')
 list_files[df_names[0]]['EndDate'] = norm.adjust_data_time(
     list_files[df_names[0]]['EndDate'], format_time='%Y-%m-%d %H:%M:%S')
 list_files[df_names[0]]['BeginDate'] = norm.adjust_data_time(
