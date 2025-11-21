@@ -15,23 +15,20 @@ PATH_FILES = 'C:/Users/Develop/Documents/Python/proyects/project_18/files/'
 list_files = norm.import_list_csv(PATH_FILES)
 df_names = list(list_files.keys())
 
+pivot_table = list_files[df_names[0]].copy()
+pivot_table['EndDate'] = norm.pd.to_datetime(
+    pivot_table['EndDate'].replace('No', ''), format_time='%Y-%m-%d %H:%M:%S')
 
-df_contract = list_files[df_names[0]]   # ← tu DataFrame original
+pivot_table['BeginDate'] = norm.pd.to_datetime(
+    pivot_table['BeginDate'], format_time='%Y-%m-%d')
+pivot_table['PaperlessBilling'] = pivot_table['PaperlessBilling'].apply(
+    lambda x: 1 if x == 'Yes' else 0)
+pivot_table['TotalCharges'] = norm.pd.to_numeric(
+    pivot_table['TotalCharges'], errors='coerce').fillna(0)
 
-# Ahora sí, trabajamos con la columna correctamente
-df_contract['EndDate'] = df_contract['EndDate'].replace('No', norm.np.nan)
+list_files[df_names[0]] = pivot_table.copy()
 
-print("Tipo de df_contract:", type(df_contract))
-print("Columnas:", df_contract.columns.tolist())
 
-list_files[df_names[0]]['EndDate'] = norm.adjust_data_time(
-    df_contract['EndDate'], format_time='%Y-%m-%d %H:%M:%S')
-list_files[df_names[0]]['BeginDate'] = norm.adjust_data_time(
-    list_files[df_names[0]]['BeginDate'], format_time='%Y-%m-%d')
-list_files[df_names[0]]['PaperlessBilling'] = list_files[df_names[0]
-                                                         ]['PaperlessBilling'].apply(lambda x: 1 if x == 'Yes' else 0)
-list_files[df_names[0]]['TotalCharges'] = norm.pd.to_numeric(
-    list_files[df_names[0]]['TotalCharges'], errors='coerce').fillna(0)
 for column in list_files[df_names[1]].columns:
     if column not in ['customerID', 'InternetService']:
         if list_files[df_names[1]][column].dtype == 'object':
