@@ -1,7 +1,7 @@
 from controller import normalization as norm
 
 import streamlit as st
-
+import os
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -10,8 +10,7 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 
 # streamlit run app.py
-
-PATH_FILES = 'C:/Users/Develop/Documents/Python/proyects/project_18/files/'
+PATH_FILES = os.path.join(os.getcwd(), "files")
 list_files = norm.import_list_csv(PATH_FILES)
 df_names = ['df_contract', 'df_internet', 'df_personal', 'df_phone']
 
