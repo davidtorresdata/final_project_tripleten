@@ -17,7 +17,7 @@ def show_log(type_display: str, value: int = None) -> None:
         print("Type display not recognized. Use 'rows' or 'columns'.")
 
 
-def import_list_csv(path: str) -> np.array:
+def import_list_csv(path: str) -> dict:
     """Import all CSV files from a specified directory and return them as a NumPy array of DataFrames.
     Parameters:
         path (str): String path where the CSV files are located.
@@ -27,15 +27,14 @@ def import_list_csv(path: str) -> np.array:
     """
 
     if os.path.exists(path):
-        list_files = [file for file in os.listdir(
-            path) if file.endswith('.csv')]
-
+        list_files = {file for file in os.listdir(
+            path) if file.endswith('.csv')}
         list_dataframe = {f"df_{file.replace('.csv', '')}": import_csv(os.path.join(path, file))
                           for file in list_files}
         return list_dataframe
     else:
         print(f"The path {path} does not exist.")
-        return np.array([])
+        return {'error': 'The path {path} does not exist.'}
 
 
 def import_csv(path) -> pd.DataFrame:
