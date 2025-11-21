@@ -169,13 +169,12 @@ fig.add_trace(go.Bar(
 ), row=1, col=2)
 
 # 4. Add-on Services Horizontal Bar
-services = ['onlinesecurity', 'onlinebackup', 'deviceprotection',
-            'techsupport', 'streamingtv', 'streamingmovies']
-service_counts = df_filtered[services].apply(lambda x: (x == 'Yes').sum())
+dft = df_filtered.loc[:, ['onlinesecurity', 'onlinebackup',
+                          'deviceprotection', 'techsupport', 'streamingtv', 'streamingmovies']].sum()
 fig.add_trace(go.Bar(
     y=[s.replace("online", "Online ").replace(
-        "streaming", "Streaming ").title() for s in service_counts.index],
-    x=service_counts.values,
+        "streaming", "Streaming ").title() for s in dft.index],
+    x=dft.values,
     orientation='h',
     name="Add-on Services",
     marker_color='#E63946',
