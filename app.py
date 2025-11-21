@@ -15,14 +15,11 @@ PATH_FILES = 'C:/Users/Develop/Documents/Python/proyects/project_18/files/'
 list_files = norm.import_list_csv(PATH_FILES)
 df_names = list(list_files.keys())
 
-list_files[df_names[0]]['EndDate'] = (
-    list_files[df_names[0]]['EndDate']
-    .astype(str)                          # ensure it's string
-    .str.replace('No', '', case=False)    # remove 'No' or 'no'
-)
+df_contract = list_files[df_names[0]]
+df_contract['EndDate'] = df_contract['EndDate'].replace('No', norm.np.nan)
 
 list_files[df_names[0]]['EndDate'] = norm.adjust_data_time(
-    list_files[df_names[0]]['EndDate'], format_time='%Y-%m-%d %H:%M:%S')
+    df_contract['EndDate'], format_time='%Y-%m-%d %H:%M:%S')
 list_files[df_names[0]]['BeginDate'] = norm.adjust_data_time(
     list_files[df_names[0]]['BeginDate'], format_time='%Y-%m-%d')
 list_files[df_names[0]]['PaperlessBilling'] = list_files[df_names[0]
