@@ -307,4 +307,4 @@ st.download_button(
 )
 
 st.caption(
-    "Dashboard created with ❤️ using Streamlit + Plotly • Fully interactive & downloadable")
+    "Streamlit + Plotly • Fully interactive & downloadable")
