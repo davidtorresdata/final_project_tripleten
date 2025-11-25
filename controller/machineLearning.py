@@ -48,20 +48,26 @@ xgb_gradient_boosting = XGBClassifier(
     # Regularización: Aumenta reg_alpha, reg_lambda, o gamma si observas sobreajuste.
 )
 
+scaler = None
+
 
 def _root_mean_squared_error_(target_valid, predicted_valid):
     mse = mean_squared_error(target_valid, predicted_valid)
     return (mse)**(1/2)
 
 
-def scaled(train):
+def scaled(train, train_scaler=True):
     numeric_cols = train.select_dtypes(include=['number']).columns.tolist()
 
     # Columnas categóricas
     categorical_cols = train.select_dtypes(
         include=['object', 'category']).columns.tolist()
 
-    scaler = StandardScaler()
+    if train_scaler:
+        global scaler
+        scaler = StandardScaler()
+    else:
+        print(f'Scaler trained')
     df_numeric_scaled = norm.pd.DataFrame(
         scaler.fit_transform(train[numeric_cols]),
         columns=numeric_cols,
